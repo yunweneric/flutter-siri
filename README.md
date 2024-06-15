@@ -31,13 +31,10 @@ To contribute to this repo,
 
 - You can learn how to use fvm here [How to use Fvm](https://fvm.app/)
 
-- Create your mockups
-- Add your mockup images to the image on the Readme file using this [Figma Link](https://www.figma.com/design/UkbKjgmGzKFubnmE9VO2IL/Flutter-Open-UI?t=1Rp4VYHVXIp8manu-1)
-- Update the README.md file on the main branch by replacing the image with the new image containing your mockup
-- Add all your changes
   ```
   git add .
   ```
+
 - Commit your changes
 
   ```![Uploading app_logo3.png…]()
