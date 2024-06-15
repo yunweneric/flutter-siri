@@ -1,8 +1,4 @@
-# Flutter Open UIs for your projects!
-
-![thumbnail](https://github.com/yunweneric/flutter_openUI/assets/57493613/45f99c55-4e43-441c-94c8-ed2ae4026006)
-
-Flutter open-source project that's all about pushing the boundaries of User Interfaces! 🌟✨ If you're a Flutter enthusiast or just someone who appreciates stunning UI/UX, this project is tailor-made for you! 🚀🎨
+# Flutter Siri (ios 18 concept)
 
 ## Setup guide
 
@@ -55,52 +51,8 @@ To contribute to this repo,
   git push origin branch_name
   ```
 
-- Make a pull request to the `contribution` branch.
+- Make a pull request to the `main` branch.
 
 ## Gallery
 
-<table>
-
-  <tr>
-   <td>
-      <a href="">
-        <img src="./showcase/ios.png" alt="Image 1" width="1000"/>
-      </a>
-    </td>
-   <td>
-      <a href="">
-        <img src="./showcase/Todo.png" alt="Image 1" width="1000"/>
-      </a>
-    </td>
-   
-    
-  </tr>
-  <tr>
-    <td>
-      <a href="https://github.com/yunweneric/flutter_openUI/tree/authUI02">
-        <img src="./showcase/Collaboration.png" alt="Image 1" width="1000"/>
-      </a>
-    </td>
-     <td>
-      <a href="https://github.com/yunweneric/flutter_openUI/tree/authUI01">
-        <img src="./showcase/BarLogin.png" alt="Image 1" width="1000"/>
-      </a>
-    </td>
-    
-   
-  </tr>
-  <tr>
-   <td>
-      <a href="https://github.com/yunweneric/flutter_openUI/tree/Onboarding_01">
-        <img src="./showcase/Frame 13.png" alt="Image 1" width="1000"/>
-      </a>
-    </td>
-     <td>
-      <a href="https://github.com/yunweneric/flutter_openUI/tree/pet_onboarding_ui">
-        <img src="./showcase/Frame 15.png" alt="Image 1" width="1000"/>
-      </a>
-    </td>
-    
-  </tr>
-
-</table>
+<img src="./showcase/ios.png" alt="Image 1" width="1000"/>

@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_openui/chat/screens/speech_screen.dart';
 import 'package:flutter_openui/screens/animated_bg.dart';
 import 'package:flutter_openui/chat/screens/chat_screen.dart';
 import 'package:flutter_openui/utils/assets.dart';
@@ -187,6 +189,19 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               icon: AppAsset.chat,
               text: "Chat with bot",
               color: AppColors.pink,
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: ((context, animation, secondaryAnimation) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: const SpeechScreen(),
+                      );
+                    }),
+                  ),
+                )
+              },
             ),
             AppSizing.k10(context),
             homeMinorCard(
@@ -194,6 +209,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               icon: AppAsset.picture,
               text: "Search by Image",
               color: AppColors.purple,
+              onTap: () {},
             ),
           ],
         )
@@ -218,34 +234,43 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     );
   }
 
-  Container homeMinorCard({required BuildContext context, required String icon, required Color color, required String text}) {
-    return Container(
-      height: AppSizing.height(context) * 0.25 * 0.48,
-      width: AppSizing.width(context) * 0.42,
-      padding: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: color,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CircleAvatar(
-                backgroundColor: Theme.of(context).cardColor.withOpacity(0.2),
-                child: Image.asset(icon, width: 20, height: 20),
-              ),
-              Icon(CupertinoIcons.arrow_up_right),
-            ],
-          ),
-          Text(
-            text,
-            style: TextStyle(color: AppColors.bgColor, fontWeight: FontWeight.w500),
-          )
-        ],
+  Widget homeMinorCard({
+    required BuildContext context,
+    required String icon,
+    required Color color,
+    required String text,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: AppSizing.height(context) * 0.25 * 0.48,
+        width: AppSizing.width(context) * 0.42,
+        padding: EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: color,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CircleAvatar(
+                  backgroundColor: Theme.of(context).cardColor.withOpacity(0.2),
+                  child: Image.asset(icon, width: 20, height: 20),
+                ),
+                Icon(CupertinoIcons.arrow_up_right),
+              ],
+            ),
+            Text(
+              text,
+              style: TextStyle(color: AppColors.bgColor, fontWeight: FontWeight.w500),
+            )
+          ],
+        ),
       ),
     );
   }
