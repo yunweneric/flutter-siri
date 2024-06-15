@@ -189,19 +189,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               icon: AppAsset.chat,
               text: "Chat with bot",
               color: AppColors.pink,
-              onTap: () => {
-                Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: ((context, animation, secondaryAnimation) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: const SpeechScreen(),
-                      );
-                    }),
-                  ),
-                )
-              },
+              onTap: () => {},
             ),
             AppSizing.k10(context),
             homeMinorCard(

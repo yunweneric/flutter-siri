@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_openui/chat/screens/speech_screen.dart';
 import 'package:flutter_openui/screens/animated_bg.dart';
 import 'package:flutter_openui/utils/assets.dart';
 import 'package:flutter_openui/utils/colors.dart';
@@ -124,78 +125,11 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
                   width: AppSizing.width(context) / 2,
                   height: AppSizing.width(context) / 2,
                 ),
-                SizedBox(
-                  height: AppSizing.height(context) / 3,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TweenAnimationBuilder(
-                        key: ValueKey(isAnimating),
-                        duration: Duration(milliseconds: 600),
-                        tween: Tween<Offset>(begin: Offset(0, 50), end: Offset.zero),
-                        builder: (context, value, child) {
-                          // print(1 - (value.dy / 50).clamp(0, 1));
-                          return Transform.translate(
-                            offset: value,
-                            child: Opacity(
-                              opacity: 1 - (value.dy / 20).clamp(0, 1),
-                              child: isAnimating
-                                  ? Text("Listening ...", style: Theme.of(context).textTheme.displayMedium)
-                                  : Text(
-                                      "Hi Flutterist 👋\n What can I help you with today?",
-                                      textAlign: TextAlign.center,
-                                      style: Theme.of(context).textTheme.displayMedium,
-                                    ),
-                            ),
-                          );
-                        },
-                      ),
-                      AppSizing.k20(context),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          circleButton(context, AppAsset.keyboard),
-                          InkWell(
-                            onTap: () => animate(),
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                AnimatedBuilder(
-                                  animation: controller!,
-                                  builder: (context, value) {
-                                    return Transform.scale(
-                                      scale: scaleAnimation?.value ?? 1,
-                                      child: SvgPicture.asset(AppAsset.mic_circle, color: Theme.of(context).primaryColor),
-                                    );
-                                  },
-                                ),
-                                SvgPicture.asset(AppAsset.microphone, color: Theme.of(context).primaryColorDark),
-                              ],
-                            ),
-                          ),
-                          circleButton(context, AppAsset.close),
-                        ],
-                      )
-                    ],
-                  ),
-                )
+                const SpeechScreen(),
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget circleButton(BuildContext context, String icon) {
-    return InkWell(
-      onTap: () {
-        if (icon == AppAsset.close) stopAndClose();
-      },
-      child: CircleAvatar(
-        radius: 30,
-        backgroundColor: Theme.of(context).cardColor,
-        child: SvgPicture.asset(icon, color: Theme.of(context).primaryColorLight),
       ),
     );
   }
