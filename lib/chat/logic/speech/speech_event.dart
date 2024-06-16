@@ -13,3 +13,11 @@ class ListeningEvent extends SpeechEvent {
 }
 
 class StopListeningEvent extends SpeechEvent {}
+
+class StopSpeakingEvent extends SpeechEvent {}
+
+class StartSpeakingEvent extends SpeechEvent {
+  final String text;
+
+  StartSpeakingEvent({required this.text});
+}

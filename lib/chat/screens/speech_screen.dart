@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_openui/chat/logic/speech/speech_bloc.dart';
 import 'package:flutter_openui/chat/screens/components/circle_btn.dart';
@@ -52,14 +53,23 @@ class _SpeechScreenState extends State<SpeechScreen> with SingleTickerProviderSt
     Navigator.of(context).pop();
   }
 
+  final duration = Duration(milliseconds: 800);
   @override
   Widget build(BuildContext context) {
     return Container(
       height: AppSizing.height(context) / 2,
       child: BlocConsumer<SpeechBloc, SpeechState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          print(["state", state]);
+          if (state is ListeningToUser || state is StartListeningToUser) {
+            animate(false);
+          }
+          if (state is StopListening) {
+            animate(true);
+          }
+        },
         builder: (context, state) {
-          final isAnimating = state is ListeningToUser;
+          final isAnimating = state is ListeningToUser || state is StartListeningToUser;
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -75,17 +85,21 @@ class _SpeechScreenState extends State<SpeechScreen> with SingleTickerProviderSt
                         offset: value,
                         child: Opacity(
                           opacity: 1 - (value.dy / 20).clamp(0, 1),
-                          child: isAnimating
-                              ? Text(
-                                  state.speechRecognitionResult?.recognizedWords ?? '',
-                                  style: Theme.of(context).textTheme.displaySmall,
-                                  textAlign: TextAlign.center,
-                                )
-                              : Text(
-                                  "Hi Flutterist 👋\n What can I help you with today?",
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.displayMedium,
-                                ),
+                          child: AnimatedSwitcher(
+                            duration: duration,
+                            key: ValueKey(isAnimating),
+                            child: isAnimating
+                                ? Text(
+                                    state.speechRecognitionResult?.recognizedWords ?? '',
+                                    style: Theme.of(context).textTheme.displaySmall,
+                                    textAlign: TextAlign.center,
+                                  )
+                                : Text(
+                                    "Hi Flutterist 👋\n What can I help you with today?",
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context).textTheme.displayMedium,
+                                  ),
+                          ),
                         ),
                       );
                     },
@@ -113,10 +127,7 @@ class _SpeechScreenState extends State<SpeechScreen> with SingleTickerProviderSt
               icon: AppAsset.keyboard,
             ),
             InkWell(
-              onTap: () {
-                animate(!animating);
-                speechBloc.add(StartListeningEvent());
-              },
+              onTap: () => speechBloc.add(StartListeningEvent()),
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -129,13 +140,27 @@ class _SpeechScreenState extends State<SpeechScreen> with SingleTickerProviderSt
                       );
                     },
                   ),
-                  SvgPicture.asset(AppAsset.microphone, color: Theme.of(context).primaryColorDark),
+                  AnimatedSwitcher(
+                    duration: duration,
+                    key: ValueKey(animating),
+                    child: animating
+                        ? SvgPicture.asset(
+                            AppAsset.close,
+                            color: Theme.of(context).primaryColorDark,
+                            width: 45,
+                            height: 45,
+                          )
+                        : SvgPicture.asset(
+                            AppAsset.microphone,
+                            color: Theme.of(context).primaryColorDark,
+                          ),
+                  ),
                 ],
               ),
             ),
             circleButton(
               context: context,
-              onTap: () => speechBloc.add(StopListeningEvent()),
+              onTap: () => Navigator.of(context).pop(),
               icon: AppAsset.close,
             ),
           ],
