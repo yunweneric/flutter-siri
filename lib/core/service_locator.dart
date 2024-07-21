@@ -5,9 +5,9 @@ import 'package:get_it/get_it.dart';
 final getIt = GetIt.instance;
 
 class ServiceLocator {
-  static void register() {
-    final speechBloc = SpeechBloc();
+  static Future<void> register() async {
     final chatBloc = ChatBloc();
+    final speechBloc = SpeechBloc(chatBloc);
     getIt.registerSingleton<SpeechBloc>(speechBloc);
     getIt.registerSingleton<ChatBloc>(chatBloc);
     print("Services registered!");

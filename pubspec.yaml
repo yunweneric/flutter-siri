@@ -37,6 +37,7 @@ dependencies:
   flutter_tts: ^4.0.2
   get_it: ^7.7.0
   google_fonts: ^6.2.0
+  google_generative_ai: ^0.4.3
   hydrated_bloc: ^9.1.5
   lottie: ^3.1.2
   speech_to_text: ^6.6.2

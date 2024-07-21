@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_openui/chat/logic/chat/chat_bloc.dart';
 import 'package:flutter_openui/chat/logic/speech/speech_bloc.dart';
 import 'package:flutter_openui/chat/screens/speech_screen.dart';
 import 'package:flutter_openui/screens/animated_bg.dart';
@@ -64,34 +65,46 @@ class _ChatScreenState extends State<ChatScreen> with SingleTickerProviderStateM
       value: SystemUiOverlayStyle(
         statusBarColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0),
       ),
-      child: BlocConsumer<SpeechBloc, SpeechState>(
-        listener: (context, state) {
-          if (state is ListeningToUser || state is StartListeningToUser) {
-            animate(false);
-          }
-          if (state is StopListening) {
+      child: BlocConsumer<ChatBloc, ChatState>(
+        listener: (context, chatState) {
+          if (chatState is ChatSendLoading) {
             animate(true);
           }
+          if (chatState is ChatSendSuccess) {
+            animate(false);
+          }
         },
-        builder: (context, state) {
-          final isAnimating = state is ListeningToUser || state is StartListeningToUser;
+        builder: (context, chatState) {
+          return BlocConsumer<SpeechBloc, SpeechState>(
+            listener: (context, state) {
+              if (state is ListeningToUser || state is StartListeningToUser) {
+                animate(false);
+              }
+              if (state is StopListening) {
+                animate(true);
+              }
+            },
+            builder: (context, state) {
+              final isAnimating = state is ListeningToUser || state is StartListeningToUser || chatState is ChatSendLoading;
 
-          return Scaffold(
-            body: Stack(
-              children: [
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  child: AnimatedBG(controller: controller!, animateRotation: animateRotation),
+              return Scaffold(
+                body: Stack(
+                  children: [
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: AnimatedBG(controller: controller!, animateRotation: animateRotation),
+                    ),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: SvgPicture.asset(AppAsset.listening_grid, color: AppColors.white),
+                    ),
+                    chatUi(context, isAnimating),
+                  ],
                 ),
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  child: SvgPicture.asset(AppAsset.listening_grid, color: AppColors.white),
-                ),
-                chatUi(context, isAnimating),
-              ],
-            ),
+              );
+            },
           );
         },
       ),

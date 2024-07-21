@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_openui/chat/logic/chat/chat_bloc.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -7,7 +8,8 @@ part 'speech_event.dart';
 part 'speech_state.dart';
 
 class SpeechBloc extends Bloc<SpeechEvent, SpeechState> {
-  SpeechBloc() : super(SpeechInitial(speechEnabled: false)) {
+  final ChatBloc chatBloc;
+  SpeechBloc(this.chatBloc) : super(SpeechInitial(speechEnabled: false)) {
     on<InitializeSpeechEvent>(onInitializeSpeechEvent);
     on<StartListeningEvent>(onStartListeningEvent);
     on<StopListeningEvent>(onStopListeningEvent);
@@ -26,12 +28,17 @@ class SpeechBloc extends Bloc<SpeechEvent, SpeechState> {
         print(["status", status == 'done']);
         if (status == "done") {
           add(StopListeningEvent());
+          String? words = state.speechRecognitionResult?.recognizedWords;
+          if (words != null) {
+            chatBloc.add(SendChat(text: words));
+          }
+
           add(StartSpeakingEvent(text: state.speechRecognitionResult?.recognizedWords ?? "No text has been added!"));
           Future.delayed(
             const Duration(seconds: 5),
             () {
               print(["Triggering ...", status]);
-              // add(StartListeningEvent());
+              add(StartListeningEvent());
             },
           );
         }

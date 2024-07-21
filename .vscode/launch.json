@@ -7,7 +7,8 @@
     {
       "name": "dev",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      "args": ["dart-define=API_KEY=AIzaSyANiZJpd-FyvtUgBuQe00WH9A6v9q3F6Ns"]
     },
     {
       "name": "flutter-open-ui (profile mode)",
